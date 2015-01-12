@@ -23,8 +23,9 @@ Note: For educational use only
 	* Collects ssh keys from root and home directories
 	* Collects .bash* from root and home directories
 	* Collects passwd/shadow/group files
-	* Collects IPTable data
   * Collects webservice logs from popular services
+	* Collects IPTable data
+  
 
 ##### Use:
 

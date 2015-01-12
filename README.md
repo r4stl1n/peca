@@ -20,12 +20,12 @@ Note: For educational use only
 
 ##### Features:
 
-	* Collects ssh keys from root and home directories
-	* Collects .bash* from root and home directories
-	* Collects passwd/shadow/group files
+  * Collects ssh keys from root and home directories
+  * Collects .bash* from root and home directories
+  * Collects passwd/shadow/group files
   * Collects webservice logs from popular services
-	* Collects IPTable data
-  
+  * Collects IPTable data
+
 
 ##### Use:
 

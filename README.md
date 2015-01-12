@@ -1,6 +1,9 @@
 # PECA
 Post Exploitation Collection Agent
 
+##### Requirments
+    To run the server you will need to have pyftpdlib installed
+     
 Note: For educational use only
 ```
             ____  _______________

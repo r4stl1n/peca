@@ -18,10 +18,10 @@ Note: For educational use only
 
 Simple start the server *Sudo is needed for port 21*
 ```
-    ./server.py --ip <iphere> --port 21 --user hacker --password hacker
+    ./server.py --ip <iphere> --port 21 --user user --password user
 ```
 
 Then drop the peca script on the client
 ```
-    ./peca.py --server <iphere> --port 21 --user hacker --password hacker
+    ./peca.py --server <iphere> --port 21 --user user --password user
 ```

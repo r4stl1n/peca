@@ -1,10 +1,4 @@
 # PECA
-Post Exploitation Collection Agent
-
-##### Requirments
-    To run the server you will need to have pyftpdlib installed
-     
-Note: For educational use only
 ```
             ____  _______________
            / __ \/ ____/ ____/   |
@@ -13,6 +7,12 @@ Note: For educational use only
         /_/   /_____/\____/_/  |_|
     Post Exploitation Collection Agent 
 ```
+Note: For educational use only
+
+##### Requirments
+
+    To run the server you will need to have pyftpdlib installed
+  
 ##### Intro:
 
   Peca was designed to help collect key files from linux 

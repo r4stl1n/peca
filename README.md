@@ -11,7 +11,7 @@ Note: For educational use only
 
 ##### Requirments
 
-    To run the server you will need to have pyftpdlib installed
+  To run the server you will need to have pyftpdlib installed
   
 ##### Intro:
 

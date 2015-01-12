@@ -19,6 +19,7 @@ Note: For educational use only
     designed to help with data gathering during the OSCP
 
 ##### Features:
+
 	* Collects ssh keys from root and home directories
 	* Collects .bash* from root and home directories
 	* Collects passwd/shadow/group files

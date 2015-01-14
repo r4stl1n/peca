@@ -480,17 +480,17 @@ def main():
 	peca.connect_to_ftp()
 
     else
-		print "[!] Dynamic options not available using hardcoded"
-		# Hard code if dynamic options arn't supported
+        print "[!] Dynamic options not available using hardcoded"
+        # Hard code if dynamic options arn't supported
         options = {}
         options["ftpserver"] = "127.0.0.1"
-    	options["ftpport"] = "21"
-		options["ftpuser"] = "pecauser"
-		options["ftppass"] = "pecapass"
+        options["ftpport"] = "21"
+        options["ftpuser"] = "pecauser"
+        options["ftppass"] = "pecapass"
         options["folderpath"] = "pub"
 
-		peca = Peca(options["ftpserver"], options["ftpport"], options["ftpuser"], options["ftppass"], options["folderpath"])
-		peca.connect_to_ftp()
+        peca = Peca(options["ftpserver"], options["ftpport"], options["ftpuser"], options["ftppass"], options["folderpath"])
+        peca.connect_to_ftp()
 
 
 

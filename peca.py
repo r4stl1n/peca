@@ -2,8 +2,14 @@ import os
 import socket
 import ftplib
 import threading
-from optparse import OptionParser
+import imp
 
+try:
+    imp.find_module('optparse')
+    from optparse import OptionParser
+    use_opt_parser = True
+except ImportError:
+    use_opt_parser = False
 
 def check_if_directory_exist(session, directory):
     filelist = []
@@ -394,10 +400,8 @@ class Peca:
             self.session.connect(self.ftpserver, self.ftpport)
             loginResult = self.session.login(self.ftpuser, self.ftppass)
 
-            if "230" in loginResult:
-                print "[*] Connection test passed"
-            else:
-                raise Exception()
+            print "[*] Connection test passed"
+
         except:
             print "[!] Error during connection shutting down"
             exit()
@@ -460,18 +464,34 @@ def print_banner():
 
 
 def main():
-    print_banner()
+	print_banner()
 
-    parser = OptionParser()
-    parser.add_option("--server", dest="ftpserver", help="Ftp Server To Connect To [default: %default]", default="127.0.0.1")
-    parser.add_option("--port", dest="ftpport", help="FTP Server Port To Connect To [default: %default]", default="21")
-    parser.add_option("--user", dest="ftpuser", help="FTP Login Information [default: %default]", default="pecauser")
-    parser.add_option("--password", dest="ftppass", help="FTP Password Information [default: %default]", default="pecapass")
-    parser.add_option("--folderpath", dest="folderpath", help="FTP Folder Path [default: %default]", default="pub")
-    (options, args) = parser.parse_args()
 
-    peca = Peca(options.ftpserver, options.ftpport, options.ftpuser, options.ftppass, options.folderpath)
-    peca.connect_to_ftp()
+    if use_opt_parser:
+        parser = OptionParser()
+        parser.add_option("--server", dest="ftpserver", help="Ftp Server To Connect To [default: %default]", default="127.0.0.1")
+        parser.add_option("--port", dest="ftpport", help="FTP Server Port To Connect To [default: %default]", default="21")
+        parser.add_option("--user", dest="ftpuser", help="FTP Login Information [default: %default]", default="pecauser")
+        parser.add_option("--password", dest="ftppass", help="FTP Password Information [default: %default]", default="pecapass")
+        parser.add_option("--folderpath", dest="folderpath", help="FTP Folder Path [default: %default]", default="pub")
+        (options, args) = parser.parse_args()
+
+	peca = Peca(options.ftpserver, options.ftpport, options.ftpuser, options.ftppass, options.folderpath)
+	peca.connect_to_ftp()
+
+    else
+		print "[!] Dynamic options not available using hardcoded"
+		# Hard code if dynamic options arn't supported
+        options = {}
+        options["ftpserver"] = "127.0.0.1"
+    	options["ftpport"] = "21"
+		options["ftpuser"] = "pecauser"
+		options["ftppass"] = "pecapass"
+        options["folderpath"] = "pub"
+
+		peca = Peca(options["ftpserver"], options["ftpport"], options["ftpuser"], options["ftppass"], options["folderpath"])
+		peca.connect_to_ftp()
+
 
 
 if __name__ == "__main__":

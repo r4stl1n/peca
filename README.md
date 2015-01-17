@@ -35,9 +35,10 @@ Simple start the server *Sudo is needed for port 21*
     ./server.py --ip <iphere> --port 21 --user user --password user
 ```
 
+Modify the settings at the bottom of peca.py to fit your use.
 Then drop the peca script on the client
 ```
-    ./peca.py --server <iphere> --port 21 --user user --password user
+    ./peca.py
 ```
 
 ##### Technical:
